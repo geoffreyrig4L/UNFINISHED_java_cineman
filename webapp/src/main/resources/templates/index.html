@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cineman</title>
+    <link rel="stylesheet" href="templates/style.css"/>
+</head>
+<body>
+
+<!-- CORRESPOND A LA VUE !!!!!! -->
+
+<h1>Cinéman</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Release Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:if="${films.empty}"> <!-- implémente une condition-->
+            <td colspan="3">Aucun film en base de données</td>
+        </tr>
+        <tr th:each="films:${films}">   <!-- implémente une itération-->
+            <td><span th:value="${film.id}">Id</span></td>
+            <td><span th:text="${film.title}">Title</span></td>
+            <td><span th:text="${film.dateReleased}">Release date</span></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
