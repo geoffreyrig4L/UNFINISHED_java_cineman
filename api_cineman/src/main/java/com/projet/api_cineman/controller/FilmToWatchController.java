@@ -2,9 +2,14 @@ package com.projet.api_cineman.controller;
 
 import com.projet.api_cineman.model.FilmToWatch;
 import com.projet.api_cineman.service.FilmToWatchService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +23,9 @@ public class FilmToWatchController {
         this.filmToWatchService = filmToWatchService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<FilmToWatch>> getFilmToWatchs() {
-        List<FilmToWatch> filmList = filmToWatchService.getAllFilmsToWatch();
+    @GetMapping("?{page}&{sortBy}")
+    public ResponseEntity<Page<FilmToWatch>> getAllFilmsToWatch(@PathVariable("page") final Optional<Integer> page, @PathVariable("sortBy") final Optional<String> sortBy) {
+        Page<FilmToWatch> filmList = filmToWatchService.getAllFilmsToWatch(page, sortBy);
         return ResponseEntity.ok(filmList);
     }
 
@@ -41,13 +46,13 @@ public class FilmToWatchController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFilmToWatch(@PathVariable("id") final Long id) {  //void sgnifie qu'il n'y a rien dans le body
+    public ResponseEntity<Void> deleteFilmToWatch(@PathVariable("id") final Long id) {  //void sgnifie qu'il n'y a aucun objet dans le body
         filmToWatchService.deleteFilmToWatch(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateFilmToWatch(@PathVariable("id") final Long id, @RequestBody FilmToWatch film) {
+    public ResponseEntity<Void> updateFilmToWatch(@PathVariable("id") final Long id, @RequestBody FilmToWatch film) { //film contenu dans le body
         Optional<FilmToWatch> optFilmToWatch = filmToWatchService.getAllFilmsToWatch(id);  //Optional -> encapsule un objet dont la valeur peut être null
 
         if (optFilmToWatch.isPresent()) {
