@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.CoreMatchers.is;
@@ -29,9 +30,7 @@ public class FilmWatchedTest {
     public void test_get_all_films_watched() throws Exception{
         mockMvc.perform(get("/films-watched"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title[1]",is("Zodiac")));       //$ designe la racine
-                                                                                        //[0] designe l'élément de la liste
-                                                                                        //title designe l'attribut
+                .andExpect(jsonPath("$.films-watched.title",is("Zodiac")));
     }
 
     //pense a inserer un Id existant

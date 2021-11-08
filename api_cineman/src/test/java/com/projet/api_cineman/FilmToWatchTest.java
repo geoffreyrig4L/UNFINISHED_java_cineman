@@ -31,9 +31,7 @@ public class FilmToWatchTest {
     void test_get_all_films_to_watch() throws Exception{
         mockMvc.perform(get("/films-to-watch"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title",is("Le loup de Wall Street")));    //$ designe la racine
-                                                                                                    //[0] designe l'élément de la liste
-                                                                                                    //title designe l'attribut
+                .andExpect(jsonPath("$.content[0].title",is("update")));
     }
 
     @Test
