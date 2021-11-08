@@ -22,8 +22,7 @@ public class FilmToWatchService {
         return filmRepository.findById(id);
     }
 
-    @GetMapping
-    public Page<FilmToWatch> getAllFilmsToWatch (@RequestParam Optional<Integer> page, @RequestParam Optional<String> sortBy) {
+    public Page<FilmToWatch> getAllFilmsToWatch (Optional<Integer> page, Optional<String> sortBy) {
         return filmRepository.findAll(
                 PageRequest.of( //Pour créer la page
                         page.orElse(0), //si page est null = on commence à la page 0

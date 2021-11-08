@@ -12,17 +12,12 @@ import java.util.List;
 
 @Repository
 public interface FilmToWatchRepository extends PagingAndSortingRepository<FilmToWatch,Long> {
-        /*CrudRepository fournit des méthodes automatiquement pour manipuler une entité comme
+        /*CrudRepository ou PagingAndSortingRepository fournit des méthodes automatiquement pour manipuler une entité comme
             | findById(id)
             | findAll()
             | deleteById(id)
             | save()
 
-
-    List<FilmToWatch> findAllByDateReleased(String date_released, Pageable pageable);
-
-    Pageable firstPage = PageRequest.of(0,3);
-    Pageable secondPage = PageRequest.of(1,3);
-
+            Paging permet en + de gérer ses index = faire une pagination
     */
 }

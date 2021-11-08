@@ -1,8 +1,12 @@
 package com.projet.api_cineman.service;
 
+import com.projet.api_cineman.model.FilmToWatch;
 import com.projet.api_cineman.model.FilmWatched;
 import com.projet.api_cineman.repository.FilmWatchedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,11 +23,14 @@ public class FilmWatchedService {
         return filmRepository.findById(id);
     }
 
-    public List<FilmWatched> getAllFilmsWatched() {
-        List<FilmWatched> listResult = new ArrayList<>();
-        Iterable<FilmWatched> films = filmRepository.findAll();
-        films.forEach(listResult::add);
-        return listResult;
+    public Page<FilmWatched> getAllFilmsWatched (Optional<Integer> page, Optional<String> sortBy) {
+        return filmRepository.findAll(
+                PageRequest.of( //Pour créer la page
+                        page.orElse(0), //si page est null = on commence à la page 0
+                        3,  //taille de la page
+                        Sort.Direction.ASC, sortBy.orElse("id") //trier par ordre croissant, avec le param sortBy si il est null = on trie par id
+                )
+        );
     }
 
     public void deleteFilmWatched(final Long id) {

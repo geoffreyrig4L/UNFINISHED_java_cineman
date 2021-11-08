@@ -2,6 +2,7 @@ package com.projet.api_cineman.controller;
 
 import com.projet.api_cineman.model.FilmWatched;
 import com.projet.api_cineman.service.FilmWatchedService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +21,15 @@ public class FilmWatchedController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FilmWatched>> getAllFilmsWatched() {
-        List<FilmWatched> filmList = filmWatchedService.getAllFilmsWatched();
+    public ResponseEntity<Page<FilmWatched>> getAllFilmsToWatch(@RequestParam("page") final Optional<Integer> page, @RequestParam("sortBy") final Optional<String> sortBy) {
+        Page<FilmWatched> filmList = filmWatchedService.getAllFilmsWatched(page, sortBy);
         return ResponseEntity.ok(filmList);
     }
+
+    /*
+        @RequestParam recupere des infos concernant les ressources, tout ce qu'on peut trouver apres le ?, ses infos servent principalement de filtrage
+        @PathVariable récupère la ressource directement soit les champs contenu dans notre bdd (id, title, date_released)
+     */
 
     @GetMapping("/{id}")
     public ResponseEntity<FilmWatched> getFilmWatched(@PathVariable("id") final Long id) {     //PathVariable -> permet de manipuler des variables dans l'URI de la requete mapping

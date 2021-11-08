@@ -23,11 +23,16 @@ public class FilmToWatchController {
         this.filmToWatchService = filmToWatchService;
     }
 
-    @GetMapping("?{page}&{sortBy}")
-    public ResponseEntity<Page<FilmToWatch>> getAllFilmsToWatch(@PathVariable("page") final Optional<Integer> page, @PathVariable("sortBy") final Optional<String> sortBy) {
+    @GetMapping
+    public ResponseEntity<Page<FilmToWatch>> getAllFilmsToWatch(@RequestParam("page") final Optional<Integer> page, @RequestParam("sortBy") final Optional<String> sortBy) {
         Page<FilmToWatch> filmList = filmToWatchService.getAllFilmsToWatch(page, sortBy);
         return ResponseEntity.ok(filmList);
     }
+
+    /*
+        @RequestParam recupere des infos concernant les ressources, tout ce qu'on peut trouver apres le ?, ses infos servent principalement de filtrage
+        @PathVariable récupère la ressource directement soit les champs contenu dans notre bdd (id, title, date_released)
+     */
 
     @GetMapping("/{id}")
     public ResponseEntity<FilmToWatch> getFilmToWatch(@PathVariable("id") final Long id) {     //PathVariable -> permet de manipuler des variables dans l'URI de la requete mapping
