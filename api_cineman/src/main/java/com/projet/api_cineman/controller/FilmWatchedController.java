@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -62,13 +61,13 @@ public class FilmWatchedController {
 
             //recupere les variables du film fourni en parametre pour les manipuler
             String title = film.getTitle();
-            String date = film.getDateReleased();
+            String date = film.getDate_released();
 
             if (title != null) {
                 currentFilmWatched.setTitle(title);
             }
             if (date != null) {
-                currentFilmWatched.setDateReleased(date);
+                currentFilmWatched.setDate_released(date);
             }
             filmWatchedService.saveFilmWatched(currentFilmWatched);
             return ResponseEntity.ok().build();

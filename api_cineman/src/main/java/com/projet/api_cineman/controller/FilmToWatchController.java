@@ -3,14 +3,10 @@ package com.projet.api_cineman.controller;
 import com.projet.api_cineman.model.FilmToWatch;
 import com.projet.api_cineman.service.FilmToWatchService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -65,13 +61,13 @@ public class FilmToWatchController {
 
             //recupere les variables du film fourni en parametre pour les manipuler
             String title = film.getTitle();
-            String date = film.getDateReleased();
+            String date = film.getDate_released();
 
             if (title != null) {
                 currentFilmToWatch.setTitle(title);
             }
             if (date != null) {
-                currentFilmToWatch.setDateReleased(date);
+                currentFilmToWatch.setDate_released(date);
             }
             filmToWatchService.saveFilmToWatch(currentFilmToWatch);
             return ResponseEntity.ok().build();

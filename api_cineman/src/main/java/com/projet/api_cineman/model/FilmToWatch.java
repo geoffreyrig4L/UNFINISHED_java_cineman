@@ -17,5 +17,5 @@ public class FilmToWatch {
     private String title;
 
     @Column(name="date_released")
-    private String dateReleased;
+    private String date_released;
 }

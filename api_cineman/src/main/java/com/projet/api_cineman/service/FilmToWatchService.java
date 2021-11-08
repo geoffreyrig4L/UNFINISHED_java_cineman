@@ -39,7 +39,5 @@ public class FilmToWatchService {
     public FilmToWatch saveFilmToWatch(FilmToWatch f) {           //creer une instance de la table et genere automatiquement l'id
         FilmToWatch savedFilmToWatch = filmRepository.save(f);
         return savedFilmToWatch;
-
     }
-
 }
