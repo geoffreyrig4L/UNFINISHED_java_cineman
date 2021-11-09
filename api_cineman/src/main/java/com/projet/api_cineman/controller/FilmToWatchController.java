@@ -32,7 +32,7 @@ public class FilmToWatchController {
 
     @GetMapping("/{id}")
     public ResponseEntity<FilmToWatch> getFilmToWatch(@PathVariable("id") final Long id) {     //PathVariable -> permet de manipuler des variables dans l'URI de la requete mapping
-        Optional<FilmToWatch> film = filmToWatchService.getAllFilmsToWatch(id); //Optional -> encapsule un objet dont la valeur peut être null
+        Optional<FilmToWatch> film = filmToWatchService.getFilmToWatch(id); //Optional -> encapsule un objet dont la valeur peut être null
         if (film.isPresent()) {   //si il existe dans la bdd
             return ResponseEntity.ok(film.get());  //recupere la valeur de film
         }
@@ -48,13 +48,18 @@ public class FilmToWatchController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFilmToWatch(@PathVariable("id") final Long id) {  //void sgnifie qu'il n'y a aucun objet dans le body
-        filmToWatchService.deleteFilmToWatch(id);
-        return ResponseEntity.ok().build();
+        Optional<FilmToWatch> optFilmToWatch = filmToWatchService.getFilmToWatch(id);  //Optional -> encapsule un objet dont la valeur peut être null
+
+        if (optFilmToWatch.isPresent()) {
+            filmToWatchService.deleteFilmToWatch(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateFilmToWatch(@PathVariable("id") final Long id, @RequestBody FilmToWatch film) { //film contenu dans le body
-        Optional<FilmToWatch> optFilmToWatch = filmToWatchService.getAllFilmsToWatch(id);  //Optional -> encapsule un objet dont la valeur peut être null
+        Optional<FilmToWatch> optFilmToWatch = filmToWatchService.getFilmToWatch(id);  //Optional -> encapsule un objet dont la valeur peut être null
 
         if (optFilmToWatch.isPresent()) {
             FilmToWatch currentFilmToWatch = optFilmToWatch.get();

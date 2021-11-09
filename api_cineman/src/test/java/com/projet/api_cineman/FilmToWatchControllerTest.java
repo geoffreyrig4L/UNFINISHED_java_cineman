@@ -12,12 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.sql.Array;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.CoreMatchers.is;
@@ -57,25 +60,24 @@ public class FilmToWatchControllerTest {
             when(filmToWatchRepository.findById(2L)).thenReturn(Optional.of(filmToWatch2));
             //liste films
             List<FilmToWatch> listFilms = List.of(filmToWatch, filmToWatch2);
-            when(filmToWatchRepository.findAll()).thenReturn(listFilms);
+            Page<FilmToWatch> page = new PageImpl<>(listFilms, null,3);         //instanciation page
+            when(filmToWatchRepository.findAll(page)).thenReturn(listFilms);
             return filmToWatchRepository;
         }
     }
 
     @Test
     void should_get_all_films_to_watch() throws Exception{
-        mockMvc.perform(get("/films-to-watch"))
+        mockMvc.perform(get("/films-to-watch?page=0&sortBy=title"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title",is("Harry Potter")));
-
-        //"{\"id\":1,\"title\":\"Harry Potter\",\"date_released\":\"2001\"}{\"id\":2,\"title\":\"Harry Potter 2\",\"date_released\":\"2002\"}"
+                .andExpect(jsonPath("$.title",is("Harry Potter")));
     }
 
     @Test
     void should_get_one_film_to_watch() throws Exception{
         mockMvc.perform(get("/films-to-watch/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title",is("Harry Potter")));
+                .andExpect(jsonPath("$.title",is("Harry Potter")));
     }
 
     @Test

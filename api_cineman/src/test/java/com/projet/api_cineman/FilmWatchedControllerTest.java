@@ -67,7 +67,7 @@ public class FilmWatchedControllerTest {
     void should_get_all_films_watched() throws Exception{
         mockMvc.perform(get("/films-watched"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title",is("Harry Potter")));
+                .andExpect(jsonPath("$.title",is("Harry Potter")));
 
         //"{\"id\":1,\"title\":\"Harry Potter\",\"date_released\":\"2001\"}{\"id\":2,\"title\":\"Harry Potter 2\",\"date_released\":\"2002\"}"
     }
