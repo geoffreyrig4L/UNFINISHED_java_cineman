@@ -57,7 +57,7 @@ public class FilmToWatchControllerTest {
 
     @Test
     void should_get_all_films_to_watch() throws Exception{
-        mockMvc.perform(get("/films-to-watch?page=0&sortBy=title"))
+        mockMvc.perform(get("/films-to-watch?page=0&sortBy=id"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].title",is("Harry Potter")))
                 .andExpect(jsonPath("$.content[1].title",is("Harry Potter 2")));

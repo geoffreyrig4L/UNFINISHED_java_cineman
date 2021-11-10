@@ -79,7 +79,7 @@ public class FilmWatchedControllerTest {
 
     @Test
     void should_get_all_films_watched() throws Exception{
-        mockMvc.perform(get("/films-watched"))
+        mockMvc.perform(get("/films-watched?page=0&sortBy=id"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].title",is("Harry Potter")))
                 .andExpect(jsonPath("$.content[1].title",is("Harry Potter 2")));
