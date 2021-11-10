@@ -34,17 +34,20 @@ public class FilmToWatchControllerTest {
         film.setDate_released("2001");
         film.setId(1L);
         filmToWatchRepository.save(film);
+        FilmToWatch film2 = new FilmToWatch();
+        film2.setTitle("Harry Potter 2");
+        film2.setDate_released("2002");
+        film2.setId(2L);
+        filmToWatchRepository.save(film2);
+
     }
 
-    /*
     @Test
     void should_get_all_films_to_watch() throws Exception{
         mockMvc.perform(get("/films-to-watch"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title",is("Harry Potter")));
-
-        //"{\"id\":1,\"title\":\"Harry Potter\",\"date_released\":\"2001\"}{\"id\":2,\"title\":\"Harry Potter 2\",\"date_released\":\"2002\"}"
-    }*/
+                .andExpect(jsonPath("$.content[0].title",is("Harry Potter")));
+    }
 
     @Test
     void should_get_one_film_to_watch() throws Exception{

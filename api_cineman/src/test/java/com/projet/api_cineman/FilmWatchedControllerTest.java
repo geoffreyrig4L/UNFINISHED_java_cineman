@@ -40,17 +40,8 @@ public class FilmWatchedControllerTest {
     @Autowired
     public FilmWatchedRepository filmWatchedRepository;
 
-    @BeforeEach   // s execute avant chaque methode de test
-    void insertInH2(){
-        FilmWatched film = new FilmWatched();
-        film.setTitle("Harry Potter");
-        film.setDate_released("2001");
-        film.setId(1L);
-        filmWatchedRepository.save(film);
-    }
+           /*         AUTRE METHODE PERMETTANT DE TESTER DANS UN MOCK = simulateur
 
-       /*         AUTRE METHODE PERMETTANT DE TESTER DANS UN MOCK = simulateur
-       
 
 
            @TestConfiguration
@@ -91,6 +82,27 @@ public class FilmWatchedControllerTest {
 
         //"{\"id\":1,\"title\":\"Harry Potter\",\"date_released\":\"2001\"}{\"id\":2,\"title\":\"Harry Potter 2\",\"date_released\":\"2002\"}"
     } */
+
+    @BeforeEach   // s execute avant chaque methode de test
+    void insertInH2(){
+        FilmWatched film = new FilmWatched();
+        film.setTitle("Harry Potter");
+        film.setDate_released("2001");
+        film.setId(1L);
+        filmWatchedRepository.save(film);
+        FilmWatched film2 = new FilmWatched();
+        film2.setTitle("Harry Potter 2");
+        film2.setDate_released("2002");
+        film2.setId(2L);
+        filmWatchedRepository.save(film2);
+    }
+
+    @Test
+    void should_get_all_films_watched() throws Exception{
+        mockMvc.perform(get("/films-watched"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].title",is("Harry Potter")));
+    }
 
     @Test
     void should_get_one_film_watched() throws Exception{
