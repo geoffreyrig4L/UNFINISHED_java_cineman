@@ -1,7 +1,10 @@
 package com.projet.api_cineman;
 
+import com.projet.api_cineman.model.FilmToWatch;
 import com.projet.api_cineman.model.FilmWatched;
+import com.projet.api_cineman.repository.FilmToWatchRepository;
 import com.projet.api_cineman.repository.FilmWatchedRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,11 +34,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class FilmWatchedControllerTest {
 
-
     @Autowired
     public MockMvc mockMvc;
 
-    @TestConfiguration
+    @Autowired
+    public FilmWatchedRepository filmWatchedRepository;
+
+           /*         AUTRE METHODE PERMETTANT DE TESTER DANS UN MOCK = simulateur
+
+
+
+           @TestConfiguration
     static class FilmWatchedControllerTestConfig{
 
         @Bean
@@ -56,13 +65,15 @@ public class FilmWatchedControllerTest {
             filmWatched2.setTitle("Harry Potter 2");
             filmWatched2.setDate_released("2002");
             when(filmWatchedRepository.findById(2L)).thenReturn(Optional.of(filmWatched2));
+            /*
             //liste films
             List<FilmWatched> listFilms = List.of(filmWatched, filmWatched2);
             when(filmWatchedRepository.findAll()).thenReturn(listFilms);
             return filmWatchedRepository;
         }
-    }
+    }*/
 
+    /*
     @Test
     void should_get_all_films_watched() throws Exception{
         mockMvc.perform(get("/films-watched"))
@@ -70,13 +81,34 @@ public class FilmWatchedControllerTest {
                 .andExpect(jsonPath("$.title",is("Harry Potter")));
 
         //"{\"id\":1,\"title\":\"Harry Potter\",\"date_released\":\"2001\"}{\"id\":2,\"title\":\"Harry Potter 2\",\"date_released\":\"2002\"}"
+    } */
+
+    @BeforeEach   // s execute avant chaque methode de test
+    void insertInH2(){
+        FilmWatched film = new FilmWatched();
+        film.setTitle("Harry Potter");
+        film.setDate_released("2001");
+        film.setId(1L);
+        filmWatchedRepository.save(film);
+        FilmWatched film2 = new FilmWatched();
+        film2.setTitle("Harry Potter 2");
+        film2.setDate_released("2002");
+        film2.setId(2L);
+        filmWatchedRepository.save(film2);
+    }
+
+    @Test
+    void should_get_all_films_watched() throws Exception{
+        mockMvc.perform(get("/films-watched"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].title",is("Harry Potter")));
     }
 
     @Test
     void should_get_one_film_watched() throws Exception{
-        mockMvc.perform(get("/films-watched/2"))
+        mockMvc.perform(get("/films-watched/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title",is("Harry Potter 2")));
+                .andExpect(jsonPath("$.title",is("Harry Potter")));
     }
 
     @Test
@@ -105,7 +137,7 @@ public class FilmWatchedControllerTest {
 
     @Test
     void should_delete_one_film_watched() throws Exception{
-        mockMvc.perform(delete("/films-watched/2")
+        mockMvc.perform(delete("/films-watched/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
