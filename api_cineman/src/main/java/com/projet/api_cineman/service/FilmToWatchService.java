@@ -18,7 +18,7 @@ public class FilmToWatchService {
     @Autowired //injection automatique des données
     private FilmToWatchRepository filmRepository;
 
-    public Optional<FilmToWatch> getAllFilmsToWatch(final Long id) {           //Optional -> encapsule un objet dont la valeur peut être null
+    public Optional<FilmToWatch> getFilmToWatch(final Long id) {           //Optional -> encapsule un objet dont la valeur peut être null
         return filmRepository.findById(id);
     }
 
