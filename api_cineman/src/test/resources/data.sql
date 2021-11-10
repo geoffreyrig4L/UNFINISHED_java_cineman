@@ -1,3 +1,5 @@
+
+
 CREATE TABLE films_vus(
     id INT Auto_Increment NOT NULL,
     title VARCHAR(50) NOT NULL,
