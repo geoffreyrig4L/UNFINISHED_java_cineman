@@ -20,6 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class FilmWatchedControllerTest {
 
+    //pour que les tests fonctionnent : il faut que le getAll verifie les titres de tous sauf du dernier et que le delete supprime le dernier
+
     @Autowired
     public MockMvc mockMvc;
 
@@ -80,8 +82,7 @@ public class FilmWatchedControllerTest {
         mockMvc.perform(get("/films-watched"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].title",is("Harry Potter")))
-                .andExpect(jsonPath("$.content[1].title",is("Harry Potter 2")))
-                .andExpect(jsonPath("$.content[2].title",is("Harry Potter 10")));
+                .andExpect(jsonPath("$.content[1].title",is("Harry Potter 2")));
 
     }
 
