@@ -2,6 +2,7 @@ package com.projet.api_cineman;
 
 import com.projet.api_cineman.model.FilmWatched;
 import com.projet.api_cineman.repository.FilmWatchedRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import(H2TestJpaConfig.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FilmWatchedControllerTest {
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) //force le contexte spring boot a etre recharge apres ce test
+//permet ainsi de ne pas creer de conflit apres une suppression   ELLE EST PRESENTE DANS LE H2TestJpaConfig DONT CETTE CLASSE HERITE
+public class FilmWatchedControllerTest implements H2TestJpaConfig{
 
     //pour que les tests fonctionnent : il faut que le getAll verifie les titres de tous sauf du dernier et que le delete supprime le dernier
 
@@ -82,8 +84,8 @@ public class FilmWatchedControllerTest {
         mockMvc.perform(get("/films-watched?page=0&sortBy=id"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].title",is("Harry Potter")))
-                .andExpect(jsonPath("$.content[1].title",is("Harry Potter 2")));
-
+                .andExpect(jsonPath("$.content[1].title",is("Harry Potter 2")))
+                .andExpect(jsonPath("$.content[2].title",is("Harry Potter 10")));
     }
 
     @Test
@@ -120,7 +122,6 @@ public class FilmWatchedControllerTest {
         mockMvc.perform(delete("/films-watched/3")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        System.out.println(mockMvc.perform(get("/films-watched/3")));
     }
 
     @Test

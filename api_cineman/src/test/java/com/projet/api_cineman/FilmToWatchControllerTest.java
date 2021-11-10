@@ -10,24 +10,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.sql.Array;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import(H2TestJpaConfig.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FilmToWatchControllerTest {
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) //force le contexte spring boot a etre recharge apres ce test
+//permet ainsi de ne pas creer de conflit apres une suppression   ELLE EST PRESENTE DANS LE H2TestJpaConfig DONT CETTE CLASSE HERITE
+public class FilmToWatchControllerTest implements H2TestJpaConfig {
 
     //pour que les tests fonctionnent : il faut que le getAll verifie les titres de tous sauf du dernier et que le delete supprime le dernier
 
@@ -60,7 +54,8 @@ public class FilmToWatchControllerTest {
         mockMvc.perform(get("/films-to-watch?page=0&sortBy=id"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].title",is("Harry Potter")))
-                .andExpect(jsonPath("$.content[1].title",is("Harry Potter 2")));
+                .andExpect(jsonPath("$.content[1].title",is("Harry Potter 2")))
+                .andExpect(jsonPath("$.content[2].title",is("Harry Potter 10")));
     }
 
     @Test
