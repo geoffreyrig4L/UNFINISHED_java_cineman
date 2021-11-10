@@ -48,9 +48,15 @@ public class FilmToWatchController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFilmToWatch(@PathVariable("id") final Long id) {  //void sgnifie qu'il n'y a aucun objet dans le body
-        filmToWatchService.deleteFilmToWatch(id);
-        return ResponseEntity.ok().build();
+        Optional<FilmToWatch> optFilmToWatch = filmToWatchService.getAllFilmsToWatch(id);  //Optional -> encapsule un objet dont la valeur peut être null
+
+        if (optFilmToWatch.isPresent()){
+            filmToWatchService.deleteFilmToWatch(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateFilmToWatch(@PathVariable("id") final Long id, @RequestBody FilmToWatch film) { //film contenu dans le body

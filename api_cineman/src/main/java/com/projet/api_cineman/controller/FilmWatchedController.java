@@ -48,8 +48,13 @@ public class FilmWatchedController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFilmWatched(@PathVariable("id") final Long id) {  //void sgnifie qu'il n'y a rien dans le body
-        filmWatchedService.deleteFilmWatched(id);
-        return ResponseEntity.ok().build();
+        Optional<FilmWatched> optFilmWatched = filmWatchedService.getFilmWatched(id);  //Optional -> encapsule un objet dont la valeur peut être null
+
+        if (optFilmWatched.isPresent()) {
+            filmWatchedService.deleteFilmWatched(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{id}")
