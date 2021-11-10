@@ -5,12 +5,14 @@ import com.projet.api_cineman.model.FilmToWatch;
 import com.projet.api_cineman.repository.FilmToWatchRepository;
 import com.projet.api_cineman.service.FilmToWatchService;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Import(H2TestJpaConfig.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class FilmToWatchControllerTest {
@@ -35,33 +38,7 @@ public class FilmToWatchControllerTest {
     @Autowired
     public MockMvc mockMvc;
 
-    @TestConfiguration
-    static class FilmToWatchControllerTestConfig{
-
-        @Bean
-        @Primary        //creer un autre repo qui est prioritaire sur le VRAI repo, les tests seront exeutés sur ce dernier
-                    //l'objectif etant de teste sans modifier notre bdd
-        public FilmToWatchRepository filmToWatchRepositoryTest(){
-            FilmToWatchRepository filmToWatchRepository = mock(FilmToWatchRepository.class); //simuler le comportement d'un objet , ici le film to watch , il ne sera pas instancie mais mocké
-            //film 1
-            FilmToWatch filmToWatch = new FilmToWatch();
-            filmToWatch.setId(1L);
-            filmToWatch.setTitle("Harry Potter");
-            filmToWatch.setDate_released("2001");
-            when(filmToWatchRepository.findById(1L)).thenReturn(Optional.of(filmToWatch));
-            //film 2
-            FilmToWatch filmToWatch2 = new FilmToWatch();
-            filmToWatch2.setId(2L);
-            filmToWatch2.setTitle("Harry Potter 2");
-            filmToWatch2.setDate_released("2002");
-            when(filmToWatchRepository.findById(2L)).thenReturn(Optional.of(filmToWatch2));
-            //liste films
-            List<FilmToWatch> listFilms = List.of(filmToWatch, filmToWatch2);
-            when(filmToWatchRepository.findAll()).thenReturn(listFilms);
-            return filmToWatchRepository;
-        }
-    }
-
+/*
     @Test
     void should_get_all_films_to_watch() throws Exception{
         mockMvc.perform(get("/films-to-watch"))
@@ -69,7 +46,12 @@ public class FilmToWatchControllerTest {
                 .andExpect(jsonPath("$[0].title",is("Harry Potter")));
 
         //"{\"id\":1,\"title\":\"Harry Potter\",\"date_released\":\"2001\"}{\"id\":2,\"title\":\"Harry Potter 2\",\"date_released\":\"2002\"}"
-    }
+    }*/
+
+    /*@BeforeEach
+    void insertInH2(){
+
+    }*/
 
     @Test
     void should_get_one_film_to_watch() throws Exception{

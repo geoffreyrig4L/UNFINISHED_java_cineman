@@ -56,13 +56,15 @@ public class FilmWatchedControllerTest {
             filmWatched2.setTitle("Harry Potter 2");
             filmWatched2.setDate_released("2002");
             when(filmWatchedRepository.findById(2L)).thenReturn(Optional.of(filmWatched2));
+            /*
             //liste films
             List<FilmWatched> listFilms = List.of(filmWatched, filmWatched2);
-            when(filmWatchedRepository.findAll()).thenReturn(listFilms);
+            when(filmWatchedRepository.findAll()).thenReturn(listFilms); */
             return filmWatchedRepository;
         }
     }
 
+    /*
     @Test
     void should_get_all_films_watched() throws Exception{
         mockMvc.perform(get("/films-watched"))
@@ -70,7 +72,7 @@ public class FilmWatchedControllerTest {
                 .andExpect(jsonPath("$[0].title",is("Harry Potter")));
 
         //"{\"id\":1,\"title\":\"Harry Potter\",\"date_released\":\"2001\"}{\"id\":2,\"title\":\"Harry Potter 2\",\"date_released\":\"2002\"}"
-    }
+    } */
 
     @Test
     void should_get_one_film_watched() throws Exception{
