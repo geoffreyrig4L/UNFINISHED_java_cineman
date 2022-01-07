@@ -47,6 +47,7 @@ public class FilmProxy {
 
     public Iterable<Film> getAllFilms() {      //complete l'URL de l'API avec le bon endpoint
         String baseApiUrl = props.getApiUrl();
+        System.out.println("coucou : " +baseApiUrl);
         String getFilmsUrl = baseApiUrl + "/films";
 
         RestTemplate restTemplate = new RestTemplate();
@@ -54,8 +55,7 @@ public class FilmProxy {
                 getFilmsUrl, //l'url
                 HttpMethod.GET, // le type de requête
                 null, //défini un comportement par défaut
-                new ParameterizedTypeReference<>() {
-                } //le type d'objet retournée
+                new ParameterizedTypeReference<Iterable<Film>>() {} //le type d'objet retournée
         );
 
         log.debug("Get Films call " + response.getStatusCode().toString()); //affiche des message dans la console
@@ -81,7 +81,7 @@ public class FilmProxy {
 
     public void deleteFilm(int id){
         String baseApiUrl = props.getApiUrl();
-        String deleteFilmUrl = baseApiUrl + "/films" +id;
+        String deleteFilmUrl = baseApiUrl + "/film/" +id;
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Void> response = restTemplate.exchange(
@@ -94,8 +94,8 @@ public class FilmProxy {
     }
 
     public Film updateFilm(Film f){
-        String baseApiurl = props.getApiUrl();
-        String updateFilmUrl =  baseApiurl +"/films"+ f.getId();
+        String baseApiUrl = props.getApiUrl();
+        String updateFilmUrl =  baseApiUrl +"/film/"+ f.getId();
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Film> request = new HttpEntity<Film>(f);
