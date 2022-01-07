@@ -12,7 +12,6 @@ import java.util.Locale;
 @Service //agit comme l'annot component + specifie que la classe gere le traitement métier
 
 //Classe qui intègre des méthodes CRUD
-
 //agit comme un relais, on peut dire quil agit comme le controller finalement
 
 public class FilmService {
@@ -25,7 +24,7 @@ public class FilmService {
         return filmProxy.getFilm(id);
     }
 
-    public Iterable<Film> getFilms(){        //iterabale declare que l'objet Film sera la cible d'une boucle for each afin de parcourir toutes les instances de Film
+    public Iterable<Film> getAllFilms(){        //iterabale declare que l'objet Film sera la cible d'une boucle for each afin de parcourir toutes les instances de Film
         return filmProxy.getAllFilms();
     }
 

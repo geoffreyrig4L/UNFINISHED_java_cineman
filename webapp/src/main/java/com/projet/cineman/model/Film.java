@@ -9,4 +9,5 @@ public class Film {
     private Integer id;
     private String title;
     private String dateReleased;
+    private boolean watched;
 }

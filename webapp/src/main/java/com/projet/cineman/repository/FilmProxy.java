@@ -47,7 +47,6 @@ public class FilmProxy {
 
     public Iterable<Film> getAllFilms() {      //complete l'URL de l'API avec le bon endpoint
         String baseApiUrl = props.getApiUrl();
-        System.out.println("coucou : " +baseApiUrl);
         String getFilmsUrl = baseApiUrl + "/films";
 
         RestTemplate restTemplate = new RestTemplate();

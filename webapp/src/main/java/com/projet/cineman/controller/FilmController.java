@@ -22,7 +22,7 @@ public class FilmController {
     //fourni des données à la vue
     @GetMapping("/")
     public String home(Model model){    //Srping fourni une instance de l'objet model automatiquement
-        Iterable<Film> listFilm = service.getFilms();
+        Iterable<Film> listFilm = service.getAllFilms();
         model.addAttribute("films",listFilm);   //ajoute a mon model un objet : (arg1) nom , (arg2) objet
         return "home";
     }
